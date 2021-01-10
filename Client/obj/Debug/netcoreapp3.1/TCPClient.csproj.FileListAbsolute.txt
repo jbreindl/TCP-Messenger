@@ -1,0 +1,10 @@
+/Users/juliusbreindl/Projects/TCP-Messenger/Client/bin/Debug/netcoreapp3.1/TCPClient.deps.json
+/Users/juliusbreindl/Projects/TCP-Messenger/Client/bin/Debug/netcoreapp3.1/TCPClient.runtimeconfig.json
+/Users/juliusbreindl/Projects/TCP-Messenger/Client/bin/Debug/netcoreapp3.1/TCPClient.runtimeconfig.dev.json
+/Users/juliusbreindl/Projects/TCP-Messenger/Client/bin/Debug/netcoreapp3.1/TCPClient.dll
+/Users/juliusbreindl/Projects/TCP-Messenger/Client/bin/Debug/netcoreapp3.1/TCPClient.pdb
+/Users/juliusbreindl/Projects/TCP-Messenger/Client/obj/Debug/netcoreapp3.1/TCPClient.csprojAssemblyReference.cache
+/Users/juliusbreindl/Projects/TCP-Messenger/Client/obj/Debug/netcoreapp3.1/TCPClient.AssemblyInfoInputs.cache
+/Users/juliusbreindl/Projects/TCP-Messenger/Client/obj/Debug/netcoreapp3.1/TCPClient.AssemblyInfo.cs
+/Users/juliusbreindl/Projects/TCP-Messenger/Client/obj/Debug/netcoreapp3.1/TCPClient.dll
+/Users/juliusbreindl/Projects/TCP-Messenger/Client/obj/Debug/netcoreapp3.1/TCPClient.pdb
