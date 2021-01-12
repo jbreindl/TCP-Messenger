@@ -11,9 +11,11 @@ public class TCPClient
         try
         {
             IPAddress ip = IPAddress.Parse("127.0.0.1");
-            Socket client = new Socket(SocketType.Stream, ProtocolType.Tcp);
-            client.Connect(ip, portNum);
-
+            IPEndPoint endpoint = new IPEndPoint(ip, 8000);
+            TcpClient client = new TcpClient();
+            Console.WriteLine("Connecting...");
+            client.Connect(endpoint);
+            Console.WriteLine("Connected.");
             client.Close();
 
         }
