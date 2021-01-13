@@ -27,18 +27,24 @@ public class TCPServer
 
         while (!done)
         {
+            //establish a TCP connection with client
             Console.Write("Waiting for connection...");
             TcpClient client = listener.AcceptTcpClient();
 
             Console.WriteLine("Connection accepted.");
-            NetworkStream ns = client.GetStream();
-
-            byte[] byteTime = Encoding.ASCII.GetBytes(DateTime.Now.ToString());
+            NetworkStream stream = client.GetStream();
 
             try
             {
-                ns.Write(byteTime, 0, byteTime.Length);
-                ns.Close();
+                //read message from stream
+                Byte[] data = new Byte[256];
+                String message = String.Empty;
+                int read = stream.Read(data, 0, data.Length);
+                message = System.Text.Encoding.ASCII.GetString(data, 0, read);
+                Console.WriteLine("Recieved: {0}", message);
+
+
+                stream.Close();
                 client.Close();
             }
             catch (Exception e)
