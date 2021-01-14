@@ -3,9 +3,8 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
-using Listener;
 
-public class TCPServer
+public partial class TCPServer
 {
 
     private const int portNum = 8000;
@@ -13,8 +12,8 @@ public class TCPServer
     public static int Main(String[] args)
     {
         //initialize a thread for listening for connections
-        Thread listen = new Thread(() => Listener.listener.listen(portNum));
-        listen.Start();
+        Thread listener = new Thread(() => listen(portNum));
+        listener.Start();
 
         return 0;
     }
