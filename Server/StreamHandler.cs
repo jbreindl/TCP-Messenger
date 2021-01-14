@@ -21,6 +21,14 @@ namespace StreamHandler
                     int read = stream.Read(data, 0, data.Length);
                     message = System.Text.Encoding.ASCII.GetString(data, 0, read);
                     Console.WriteLine("Recieved: {0}", message);
+
+                    switch (message)
+                    {
+                        case "!quit":
+                            stream.Close();
+                            return;
+                        default: continue;
+                    }
  
                 }
                 catch (Exception e) { Console.WriteLine(e.ToString()); }

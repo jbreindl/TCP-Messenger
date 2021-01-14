@@ -21,7 +21,7 @@ public class TCPClient
             try
             {
                 //read a message from the command line
-                Console.WriteLine("\nWrite a Message");
+                Console.Write("\nWrite a Message: ");
                 string message = Console.ReadLine();
                 message = message.Trim();
 
@@ -30,6 +30,16 @@ public class TCPClient
                 NetworkStream stream = client.GetStream();
                 stream.Write(data, 0, data.Length);
                 Console.WriteLine("Sent: {0}", message);
+
+                //will be expanded upon - will be used to implement commands
+                switch (message)
+                {
+                    case "!quit": 
+                        stream.Close();
+                        return 0;
+                    default:
+                        continue;
+                }
 
             }
             catch (Exception e)
