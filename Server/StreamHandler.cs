@@ -16,7 +16,7 @@ public partial class TCPServer
         username = System.Text.Encoding.ASCII.GetString(data, 0, read);
         
         //if username is in use send an error message back to the client
-        string error = "Sorry, the username {0} is already in use.\n Please try a different name"
+        string error = ("Sorry, the username {0} is already in use.\n Please try a different name", username);
         Byte[] encoded = System.Text.Encoding.ASCII.GetBytes(error);
         stream.Write(encoded, 0, encoded.Length);
         }while(!active.TryAdd(username))
