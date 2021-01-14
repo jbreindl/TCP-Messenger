@@ -11,7 +11,7 @@ namespace Listener
     public class listener
     {
         public static void listen(int port){
-        //Creates an instance of the TcpListener class by providing a local IP address and port number
+            //Creates an instance of the TcpListener class by providing a local IP address and port number
             IPAddress ip = IPAddress.Parse("127.0.0.1");  
             TcpListener listener;
             try{
@@ -26,6 +26,7 @@ namespace Listener
 
             while (true)
             {
+                //accepts connections and starts threads to handle them
                 Console.Write("Waiting for connection...");
                 TcpClient client = listener.AcceptTcpClient();
                 Console.WriteLine("Connection accepted.");

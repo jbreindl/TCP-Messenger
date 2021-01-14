@@ -12,6 +12,7 @@ public class TCPServer
 
     public static int Main(String[] args)
     {
+        //initialize a thread for listening for connections
         Thread listen = new Thread(() => Listener.listener.listen(portNum));
         listen.Start();
 

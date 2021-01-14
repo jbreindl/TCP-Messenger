@@ -15,15 +15,13 @@ namespace StreamHandler
             {
                 try
                 {
-                //read message from stream
+                    //read message from stream
                     Byte[] data = new Byte[256];
                     String message = String.Empty;
                     int read = stream.Read(data, 0, data.Length);
                     message = System.Text.Encoding.ASCII.GetString(data, 0, read);
                     Console.WriteLine("Recieved: {0}", message);
-
-
-                    stream.Close();  
+ 
                 }
                 catch (Exception e) { Console.WriteLine(e.ToString()); }
             }
