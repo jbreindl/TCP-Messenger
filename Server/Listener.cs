@@ -3,11 +3,10 @@ using System.Text;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
+using System.Collections.Generic;
 
 public partial class TCPServer
 {
-    
-    private Dictionary<string, NetworkStream> active = new Dictionary<string, NetworkStream>();
 
     public static void listen(int port){
         //Creates an instance of the TcpListener class by providing a local IP address and port number
@@ -29,7 +28,7 @@ public partial class TCPServer
             Console.WriteLine("Waiting for connection...");
             TcpClient client = listener.AcceptTcpClient();
             Console.WriteLine("Connection accepted.");
-            
+
             Thread child = new Thread(() => handler(client.GetStream()));
             child.Start();
             

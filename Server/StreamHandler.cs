@@ -3,23 +3,25 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using System.Collections.Generic;
 
         
 public partial class TCPServer
 {
     public static void handler(NetworkStream stream)
     {
-        do{
         //acquire a username
         Byte[] data = new Byte[256];
         String username = String.Empty;
-        username = System.Text.Encoding.ASCII.GetString(data, 0, read);
+        username = System.Text.Encoding.ASCII.GetString(data, 0, data.Length);
         
-        //if username is in use send an error message back to the client
-        string error = ("Sorry, the username {0} is already in use.\n Please try a different name", username);
-        Byte[] encoded = System.Text.Encoding.ASCII.GetBytes(error);
-        stream.Write(encoded, 0, encoded.Length);
-        }while(!active.TryAdd(username))
+        while(!active.TryAdd(username, stream))
+        {    
+            //if username is in use send an error message back to the client
+            string error = "Sorry, that username is already in use.\n Please try a different name";
+            Byte[] encoded = System.Text.Encoding.ASCII.GetBytes(error);
+            stream.Write(encoded, 0, encoded.Length);
+        }
 
         while (true)
         {
