@@ -21,7 +21,7 @@ public class TCPClient
             try
             {
                 //read a message from the command line
-                Console.Write("\nWrite a Message: ");
+                Console.Write("Write a Message: ");
                 string message = Console.ReadLine();
                 message = message.Trim();
 
@@ -45,8 +45,8 @@ public class TCPClient
             catch (Exception e)
             {
                 Console.WriteLine(e.ToString());
+                return 1;
             }
         }
-        return 0;
     }
 }
