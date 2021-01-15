@@ -1,5 +1,3 @@
-using System.IO;
-using System.Security.Cryptography;
 using System;
 using System.Net;
 using System.Net.Sockets;
@@ -7,10 +5,9 @@ using System.Text;
 using System.Threading;
 using System.Collections.Generic;
 
-        
 public partial class TCPServer
 {
-    public static void handler(NetworkStream stream)
+    private static void handler(NetworkStream stream)
     {
         //request a username
         String request = "Welcome. Please enter a username";
@@ -23,6 +20,7 @@ public partial class TCPServer
         int read = stream.Read(data, 0, data.Length);
         username = System.Text.Encoding.ASCII.GetString(data, 0, read);
         
+
         while(!active.TryAdd(username, stream))
         {    
             //if username is in use send an error message back to the client
@@ -32,30 +30,49 @@ public partial class TCPServer
 
             //await new username
             read = stream.Read(data, 0, data.Length);
-            username = System.Text.Encoding.ASCII.GetString(data, 0, read);
+            username = System.Text.Encoding.ASCII.GetString(data, 0, read).Trim();
         }
 
+        Console.WriteLine("Hello, " + username);
         while (true)
-        {
-           
+        {   
             try
             {
                 //read message from stream    
                 String message = String.Empty;
                 read = stream.Read(data, 0, data.Length);
                 message = System.Text.Encoding.ASCII.GetString(data, 0, read);
-                Console.WriteLine("Recieved: {0}", message);
+                
+                //finds destination
+                (NetworkStream, String) dest = handleMessage(message);
+                encoded = System.Text.Encoding.ASCII.GetBytes(dest.Item2);
+                dest.Item1.Write(encoded, 0, encoded.Length);
+
 
                 switch (message)
                 {
                     case "!quit":
                         stream.Close();
                         return;
-                    default: continue;
+                    default: 
+                        continue;
                 }
 
             }
             catch (Exception e) { Console.WriteLine(e.ToString()); }
         }
+    }
+    private static (NetworkStream, String) handleMessage(string message)
+    {
+        NetworkStream recipient;
+        int position = message.IndexOf(' ', 0);
+        String key = message.Substring(0, position);
+        message = message.Substring(position + 1);
+        /*if(!active.ContainsKey(key)){
+            Console.WriteLine(key); 
+            return null;   
+        }*/
+        /*else{*/ recipient = active[key]; //}
+        return(recipient, message);
     }
 }

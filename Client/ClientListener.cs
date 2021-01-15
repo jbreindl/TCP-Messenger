@@ -4,7 +4,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 public partial class TCPClient{
-    public static void listen(TcpClient client)
+    private static void listen(TcpClient client)
     {
         Stream stream = client.GetStream();
         while(true)
@@ -18,7 +18,7 @@ public partial class TCPClient{
             
                 Console.WriteLine(message);
             }
-            catch (Exception e) { Console.WriteLine(e.ToString()); }
+            catch (Exception e) { Console.WriteLine(e.ToString()); return;}
         }
     }
 }

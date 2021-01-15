@@ -7,8 +7,7 @@ using System.Collections.Generic;
 
 public partial class TCPServer
 {
-
-    public static void listen(int port){
+    private static void listen(int port){
         //Creates an instance of the TcpListener class by providing a local IP address and port number
         IPAddress ip = IPAddress.Parse("127.0.0.1");  
         TcpListener listener;
