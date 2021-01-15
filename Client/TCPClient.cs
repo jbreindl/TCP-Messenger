@@ -2,8 +2,9 @@ using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 
-public class TCPClient
+public partial class TCPClient
 {
     private const int portNum = 8000;
     public static int Main(String[] args)
@@ -16,37 +17,11 @@ public class TCPClient
         client.Connect(endpoint);
         Console.WriteLine("Connected.");
 
-        while (true)
-        {
-            try
-            {
-                //read a message from the command line
-                Console.Write("Write a Message: ");
-                string message = Console.ReadLine();
-                message = message.Trim();
+        Thread listener = new Thread(()=> listen(client));
+        Thread SendThread = new Thread(()=> sender(client));
+        SendThread.Start();
+        listener.Start();
 
-                //send a message to the server
-                Byte[] data = System.Text.Encoding.ASCII.GetBytes(message);
-                NetworkStream stream = client.GetStream();
-                stream.Write(data, 0, data.Length);
-                Console.WriteLine("Sent: {0}", message);
-
-                //will be expanded upon - will be used to implement commands
-                switch (message)
-                {
-                    case "!quit": 
-                        stream.Close();
-                        return 0;
-                    default:
-                        continue;
-                }
-
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.ToString());
-                return 1;
-            }
-        }
+        return 0;
     }
 }
