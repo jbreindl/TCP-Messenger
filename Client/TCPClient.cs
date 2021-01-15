@@ -21,7 +21,7 @@ public partial class TCPClient
         Thread SendThread = new Thread(()=> sender(client));
         SendThread.Start();
         listener.Start();
-
+        
         return 0;
     }
 }
