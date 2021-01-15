@@ -1,3 +1,5 @@
+using System.IO;
+using System.Security.Cryptography;
 using System;
 using System.Net;
 using System.Net.Sockets;
@@ -10,17 +12,27 @@ public partial class TCPServer
 {
     public static void handler(NetworkStream stream)
     {
+        //request a username
+        String request = "Welcome. Please enter a username";
+        Byte[] encoded = System.Text.Encoding.ASCII.GetBytes(request);
+        stream.Write(encoded, 0, encoded.Length);
+
         //acquire a username
         Byte[] data = new Byte[256];
         String username = String.Empty;
-        username = System.Text.Encoding.ASCII.GetString(data, 0, data.Length);
+        int read = stream.Read(data, 0, data.Length);
+        username = System.Text.Encoding.ASCII.GetString(data, 0, read);
         
         while(!active.TryAdd(username, stream))
         {    
             //if username is in use send an error message back to the client
             string error = "Sorry, that username is already in use.\n Please try a different name";
-            Byte[] encoded = System.Text.Encoding.ASCII.GetBytes(error);
+            encoded = System.Text.Encoding.ASCII.GetBytes(error);
             stream.Write(encoded, 0, encoded.Length);
+
+            //await new username
+            read = stream.Read(data, 0, data.Length);
+            username = System.Text.Encoding.ASCII.GetString(data, 0, read);
         }
 
         while (true)
@@ -30,7 +42,7 @@ public partial class TCPServer
             {
                 //read message from stream    
                 String message = String.Empty;
-                int read = stream.Read(data, 0, data.Length);
+                read = stream.Read(data, 0, data.Length);
                 message = System.Text.Encoding.ASCII.GetString(data, 0, read);
                 Console.WriteLine("Recieved: {0}", message);
 
