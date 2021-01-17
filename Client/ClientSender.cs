@@ -5,7 +5,14 @@ using System.Net.Sockets;
 
 
 public partial class TCPClient{
+
     private static void sender(TcpClient client) {
+        Console.WriteLine("Welcome! Please enter your username.");
+        string username = Console.ReadLine().Trim();
+
+        Byte[] data = System.Text.Encoding.ASCII.GetBytes(username);
+        NetworkStream stream = client.GetStream();
+        stream.Write(data, 0, data.Length);
         while (true)
         {
             try
@@ -14,10 +21,8 @@ public partial class TCPClient{
                 string message = Console.ReadLine();
                 message = message.Trim();
                 //send a message to the server
-                Byte[] data = System.Text.Encoding.ASCII.GetBytes(message);
-                NetworkStream stream = client.GetStream();
+                data = System.Text.Encoding.ASCII.GetBytes(message);
                 stream.Write(data, 0, data.Length);
-                Console.WriteLine("Sent: {0}", message);
 
                 //will be expanded upon - will be used to implement commands
                 switch (message)

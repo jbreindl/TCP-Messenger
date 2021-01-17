@@ -9,12 +9,9 @@ public partial class TCPServer
 {
     private static void handler(NetworkStream stream)
     {
-        //request a username
-        String request = "Welcome. Please enter a username";
-        Byte[] encoded = System.Text.Encoding.ASCII.GetBytes(request);
-        stream.Write(encoded, 0, encoded.Length);
+        Byte[] encoded;
 
-        //acquire a username
+        //acquire a username - will be the first thing sent
         Byte[] data = new Byte[256];
         String username = String.Empty;
         int read = stream.Read(data, 0, data.Length);
@@ -33,7 +30,10 @@ public partial class TCPServer
             username = System.Text.Encoding.ASCII.GetString(data, 0, read).Trim();
         }
 
-        Console.WriteLine("Hello, " + username);
+        String greet = String.Format("Welcome {0}, please write a message in the format [Destination User] [message]", username);
+        encoded = System.Text.Encoding.ASCII.GetBytes(greet);
+        stream.Write(encoded, 0, encoded.Length);
+
         while (true)
         {   
             try
@@ -48,18 +48,9 @@ public partial class TCPServer
                 encoded = System.Text.Encoding.ASCII.GetBytes(dest.Item2);
                 dest.Item1.Write(encoded, 0, encoded.Length);
 
-
-                switch (message)
-                {
-                    case "!quit":
-                        stream.Close();
-                        return;
-                    default: 
-                        continue;
-                }
-
             }
-            catch (Exception e) { Console.WriteLine(e.ToString()); }
+            //in the event of an error print error and terminate connection
+            catch (Exception e) { Console.WriteLine(e.ToString()); stream.Close(); return;}
         }
     }
     private static (NetworkStream, String) handleMessage(string message)
@@ -68,11 +59,12 @@ public partial class TCPServer
         int position = message.IndexOf(' ', 0);
         String key = message.Substring(0, position);
         message = message.Substring(position + 1);
-        /*if(!active.ContainsKey(key)){
+        if(!active.ContainsKey(key)){
             Console.WriteLine(key); 
-            return null;   
-        }*/
-        /*else{*/ recipient = active[key]; //}
+            return (null, null);   
+        }
+        else{ recipient = active[key]; //}
         return(recipient, message);
+    }
     }
 }
