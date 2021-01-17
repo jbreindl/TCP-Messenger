@@ -21,7 +21,7 @@ public partial class TCPServer
         while(!active.TryAdd(username, stream))
         {    
             //if username is in use send an error message back to the client
-            string error = "Sorry, that username is already in use.\n Please try a different name";
+            string error = "Sorry, that username is already in use.\nPlease try a different name";
             encoded = System.Text.Encoding.ASCII.GetBytes(error);
             stream.Write(encoded, 0, encoded.Length);
 
@@ -29,8 +29,8 @@ public partial class TCPServer
             read = stream.Read(data, 0, data.Length);
             username = System.Text.Encoding.ASCII.GetString(data, 0, read).Trim();
         }
-
-        String greet = String.Format("Welcome {0}, please write a message in the format [Destination User] [message]", username);
+        Console.WriteLine("User accepted");
+        String greet = String.Format("Server Welcome {0}. Who would you like to message?", username);
         encoded = System.Text.Encoding.ASCII.GetBytes(greet);
         stream.Write(encoded, 0, encoded.Length);
 
@@ -42,7 +42,6 @@ public partial class TCPServer
                 String message = String.Empty;
                 read = stream.Read(data, 0, data.Length);
                 message = System.Text.Encoding.ASCII.GetString(data, 0, read);
-                
                 //finds destination
                 (NetworkStream, String) dest = handleMessage(message);
                 encoded = System.Text.Encoding.ASCII.GetBytes(dest.Item2);
@@ -59,12 +58,15 @@ public partial class TCPServer
         int position = message.IndexOf(' ', 0);
         String key = message.Substring(0, position);
         message = message.Substring(position + 1);
+        Console.WriteLine(message);
         if(!active.ContainsKey(key)){
             Console.WriteLine(key); 
             return (null, null);   
         }
-        else{ recipient = active[key]; //}
-        return(recipient, message);
-    }
+        else
+        { 
+            recipient = active[key];
+            return(recipient, message);
+        }
     }
 }

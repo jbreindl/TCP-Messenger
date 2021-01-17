@@ -6,6 +6,7 @@ using System.Threading;
 
 public partial class TCPClient
 {
+    public static bool accepted = false;
     private const int portNum = 8000;
     public static int Main(String[] args)
     {
