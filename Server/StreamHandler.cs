@@ -58,14 +58,14 @@ public partial class TCPServer
         int position = message.IndexOf(' ', 0);
         String key = message.Substring(0, position);
         message = message.Substring(position + 1);
+        
+        //if the name is not correct, send an error back to the original sender
         if(!active.ContainsKey(key)){
-            Console.WriteLine(key); 
-            return (null, null);   
+               position = message.IndexOf(' ', 0);
+               key = message.Substring(0, position);
+               message = "Server Sorry, that user isn't active right now";
         }
-        else
-        { 
-            recipient = active[key];
-            return(recipient, message);
-        }
+        recipient = active[key];
+        return(recipient, message);
     }
 }
