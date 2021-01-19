@@ -21,7 +21,7 @@ public partial class TCPServer
         while(!active.TryAdd(username, stream))
         {    
             //if username is in use send an error message back to the client
-            string error = "Sorry, that username is already in use.\nPlease try a different name";
+            string error = "Server Sorry, that username is already in use.\nPlease try a different name";
             encoded = System.Text.Encoding.ASCII.GetBytes(error);
             stream.Write(encoded, 0, encoded.Length);
 
@@ -29,7 +29,7 @@ public partial class TCPServer
             read = stream.Read(data, 0, data.Length);
             username = System.Text.Encoding.ASCII.GetString(data, 0, read).Trim();
         }
-        Console.WriteLine("User accepted");
+        Console.WriteLine("Accepted");
         String greet = String.Format("Server Welcome {0}. Who would you like to message?", username);
         encoded = System.Text.Encoding.ASCII.GetBytes(greet);
         stream.Write(encoded, 0, encoded.Length);

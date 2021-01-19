@@ -8,9 +8,8 @@ using MySql.Data;
 using MySql.Data.MySqlClient;
 
 public partial class TCPClient{
-    private static void listen(TcpClient client)
+    private static void listen()
     {
-        Stream stream = client.GetStream();
         while(true)
         {
             try{
@@ -19,7 +18,6 @@ public partial class TCPClient{
                 String message = String.Empty;
                 int read = stream.Read(data, 0 , data.Length);
                 message = System.Text.Encoding.ASCII.GetString(data, 0, read);
-                Console.WriteLine(message);
                 recieve(message);
             }
             catch (Exception e) { Console.WriteLine(e.ToString()); return;}
@@ -31,14 +29,15 @@ public partial class TCPClient{
         int position = message.IndexOf(" ", 0);
         String sender = message.Substring(0, position);
         message = message.Substring(position+1);
-
-        if (sender == "Server")
+        if(sender == "Server")
         {
-            position = message.IndexOf(" ", 0);
-            String check = message.Substring(0, position);
-            if(check == "Welcome"){ accepted = true; }
+        position = message.IndexOf(" ", 0);
+        String check = message.Substring(0, position);
+        Console.WriteLine(check);
+        if(check == "Welcome") { accepted = true;}
         }
-
+        //message is everything except the senders name
+        message = message.Substring(position+1);
         Console.WriteLine(sender + ": " + message);
         return;
     }

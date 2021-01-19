@@ -7,23 +7,8 @@ using System.Net.Sockets;
 public partial class TCPClient{
 
     public static string username;
-    private static void sender(TcpClient client) {
-        Byte[] data;
-        NetworkStream stream;
-        Console.WriteLine("Welcome! Please enter your username.");
-        
-        do{
-        username = Console.ReadLine().Trim();
-        data = System.Text.Encoding.ASCII.GetBytes(username);
-        stream = client.GetStream();
-        stream.Write(data, 0, data.Length);
-        
-        //wait for username to be accepted by the server
-        username = Console.ReadLine().Trim();
-        data = System.Text.Encoding.ASCII.GetBytes(username);
-        stream.Write(data, 0, data.Length);
-        }while(!accepted);
-
+    private static void sender() 
+        {
         while (true)
         {
             try
@@ -34,14 +19,14 @@ public partial class TCPClient{
 
                 //read a message from the command line
                 Console.WriteLine("Enter your message");
-                string message = Console.ReadLine();
+                String message = Console.ReadLine();
                 message = message.Trim();
 
                 //format message for server
                 message = dest + " " + username + " " + message;
                 Console.WriteLine(message);
                 //send a message to the server
-                data = System.Text.Encoding.ASCII.GetBytes(message);
+                Byte[] data = System.Text.Encoding.ASCII.GetBytes(message);
                 stream.Write(data, 0, data.Length);
             }
             catch (Exception e)
