@@ -33,7 +33,6 @@ public partial class TCPClient
         data = new Byte[256];
         int read = stream.Read(data, 0, data.Length);
         reply = System.Text.Encoding.ASCII.GetString(data, 0, read);
-        Console.WriteLine("Reply is " + reply);
         recieve(reply);
         }while(!accepted);
     

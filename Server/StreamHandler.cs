@@ -30,7 +30,7 @@ public partial class TCPServer
             username = System.Text.Encoding.ASCII.GetString(data, 0, read).Trim();
         }
         Console.WriteLine("Accepted");
-        String greet = String.Format("Server Welcome {0}. Who would you like to message?", username);
+        String greet = String.Format("Server Welcome {0}", username);
         encoded = System.Text.Encoding.ASCII.GetBytes(greet);
         stream.Write(encoded, 0, encoded.Length);
 
@@ -58,7 +58,6 @@ public partial class TCPServer
         int position = message.IndexOf(' ', 0);
         String key = message.Substring(0, position);
         message = message.Substring(position + 1);
-        Console.WriteLine(message);
         if(!active.ContainsKey(key)){
             Console.WriteLine(key); 
             return (null, null);   

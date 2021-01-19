@@ -24,7 +24,7 @@ public partial class TCPClient{
 
                 //format message for server
                 message = dest + " " + username + " " + message;
-                Console.WriteLine(message);
+                
                 //send a message to the server
                 Byte[] data = System.Text.Encoding.ASCII.GetBytes(message);
                 stream.Write(data, 0, data.Length);

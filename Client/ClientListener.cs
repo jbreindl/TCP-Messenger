@@ -33,11 +33,10 @@ public partial class TCPClient{
         {
         position = message.IndexOf(" ", 0);
         String check = message.Substring(0, position);
-        Console.WriteLine(check);
         if(check == "Welcome") { accepted = true;}
         }
+
         //message is everything except the senders name
-        message = message.Substring(position+1);
         Console.WriteLine(sender + ": " + message);
         return;
     }
