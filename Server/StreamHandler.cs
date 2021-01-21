@@ -49,7 +49,11 @@ public partial class TCPServer
 
             }
             //in the event of an error print error and terminate connection
-            catch (Exception e) { Console.WriteLine(e.ToString()); stream.Close(); return;}
+            catch (Exception e) { Console.WriteLine(e.ToString()); 
+            stream.Close();
+            active.Remove(username); 
+            return;
+            }
         }
     }
     private static (NetworkStream, String) handleMessage(string message)
