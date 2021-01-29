@@ -18,8 +18,12 @@ public partial class TCPServer
         username = System.Text.Encoding.ASCII.GetString(data, 0, read);
         
 
-        while(!active.TryAdd(username, stream))
+        while(!active.ContainsKey(username))
         {    
+            lock (active)
+            {
+                if(active.TryAdd(username, stream)){ break; }
+            }
             //if username is in use send an error message back to the client
             string error = "Server Sorry, that username is already in use.\nPlease try a different name";
             encoded = System.Text.Encoding.ASCII.GetBytes(error);
@@ -29,6 +33,7 @@ public partial class TCPServer
             read = stream.Read(data, 0, data.Length);
             username = System.Text.Encoding.ASCII.GetString(data, 0, read).Trim();
         }
+        
         Console.WriteLine("Accepted");
         String greet = String.Format("Server Welcome {0}", username);
         encoded = System.Text.Encoding.ASCII.GetBytes(greet);
@@ -49,9 +54,14 @@ public partial class TCPServer
 
             }
             //in the event of an error print error and terminate connection
-            catch (Exception e) { Console.WriteLine(e.ToString()); 
-            stream.Close();
-            active.Remove(username); 
+            catch (Exception e) 
+            {
+                lock(active)
+                {
+                    Console.WriteLine(e.ToString()); 
+                    stream.Close();
+                    active.Remove(username); 
+                }
             return;
             }
         }
